@@ -1,0 +1,6 @@
+db.sqlite3
+staticfiles/
+
+# Byte-compiled Python files
+*.pyc
+__pycache__/
