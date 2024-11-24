@@ -1,5 +1,6 @@
 const apiURL = 'http://127.0.0.1:8000/api/tasks/';
 
+// Fetch Tasks from API
 async function fetchTasks() {
     try {
         const response = await fetch(apiURL);
@@ -8,20 +9,24 @@ async function fetchTasks() {
         taskList.innerHTML = '';
 
         tasks.forEach(task => {
-            taskList.innerHTML += `
-                <li class="list-group-item">
-                    <span>${task.title}</span>
-                    <button onclick="deleteTask(${task.id})">Delete</button>
-                </li>
+            const listItem = document.createElement('li');
+            listItem.className = 'list-group-item d-flex justify-content-between align-items-center';
+            listItem.innerHTML = `
+                <span>${task.title}</span>
+                <button onclick="deleteTask(${task.id})" class="btn btn-danger">
+                    <i class="fas fa-trash-alt"></i>
+                </button>
             `;
+            taskList.appendChild(listItem);
         });
     } catch (error) {
         console.error('Error fetching tasks:', error);
     }
 }
 
+// Add a New Task
 async function addTask() {
-    const title = document.getElementById('task-title').value;
+    const title = document.getElementById('task-title').value.trim();
     if (!title) {
         alert('Please enter a task title.');
         return;
@@ -42,6 +47,7 @@ async function addTask() {
     }
 }
 
+// Delete a Task
 async function deleteTask(id) {
     try {
         await fetch(`${apiURL}${id}/`, { method: 'DELETE' });
@@ -51,4 +57,5 @@ async function deleteTask(id) {
     }
 }
 
+// Load Tasks on Page Load
 fetchTasks();
